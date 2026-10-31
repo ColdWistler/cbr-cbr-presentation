@@ -62,7 +62,7 @@ export function Split({
   children,
   className,
 }: {
-  ratio?: '60/40' | '55/45' | '70/30' | '40/60' | '45/55' | '30/70'
+  ratio?: '60/40' | '55/45' | '50/50' | '70/30' | '40/60' | '45/55' | '30/70'
   children: [ReactNode, ReactNode]
   className?: string
 }) {
@@ -70,6 +70,7 @@ export function Split({
   const grid = {
     '60/40': 'lg:grid-cols-[1.5fr_1fr]',
     '55/45': 'lg:grid-cols-[1.22fr_1fr]',
+    '50/50': 'lg:grid-cols-[1fr_1fr]',
     '70/30': 'lg:grid-cols-[2.33fr_1fr]',
     '40/60': 'lg:grid-cols-[1fr_1.5fr]',
     '45/55': 'lg:grid-cols-[1fr_1.22fr]',

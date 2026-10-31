@@ -4,27 +4,27 @@ import SpotlightCard from '../components/reactbits/SpotlightCard'
 const STEPS = [
   {
     r: 'Retrieve',
-    line: 'Given the new problem, find the most similar solved case — weighted nearest neighbours over the case features.',
+    line: 'Weighted k-NN over normalised features: coord 0.40, time 0.25, traffic 0.20, day 0.10, weather 0.05',
   },
   {
     r: 'Reuse',
-    line: 'Map the retrieved solution onto the new problem: copy the route skeleton, leave holes where the problems differ.',
+    line: 'Copy the route skeleton (ordered streets, timings); leave holes where the problems differ',
   },
   {
     r: 'Revise',
-    line: 'Test the reused solution against live traffic and closure feeds, repair it, and score the repaired route.',
+    line: 'Test against live traffic & closures, repair mismatches, re-score before dispatch',
   },
   {
     r: 'Retain',
-    line: 'Store problem + repaired solution + outcome so the next similar order is faster to answer.',
+    line: 'Store problem + repaired solution + outcome → next similar order is faster to answer',
   },
 ]
 
-export default function Loop() {
+export default function Cycle() {
   return (
     <Stage accent="blue">
       <Eyebrow>The CBR cycle</Eyebrow>
-      <Display className="mt-4 max-w-[24ch]">The loop, once, in delivery terms</Display>
+      <Display className="mt-4 max-w-[24ch]">The 4-R loop in delivery terms</Display>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-4">
         {STEPS.map((s, i) => (
@@ -59,8 +59,7 @@ export default function Loop() {
         <Lead>
           The loop closes on itself: <span className="prose-strong">Retain feeds Retrieve</span>.
           CBR's knowledge sits in four containers — the case base, the vocabulary, the similarity
-          measure and the adaptation knowledge. Three of the four are learned from the deliveries
-          this deck walks through.
+          measure and the adaptation knowledge. Three of the four are learned from deliveries.
         </Lead>
       </Rise>
     </Stage>

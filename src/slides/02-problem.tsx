@@ -1,5 +1,4 @@
 import { Stage, Display, Eyebrow, Rise, Lead, Block } from '../deck/primitives'
-import Counter from '../components/reactbits/Counter'
 
 const NUMBERS = [
   { value: 12000, label: 'orders a day', note: 'each one planned from scratch today' },
@@ -7,7 +6,7 @@ const NUMBERS = [
   { value: 8, suffix: '–40 s', label: 'routing compute per order', note: 'before the first parcel moves' },
 ]
 
-export default function Archive() {
+export default function Problem() {
   return (
     <Stage accent="red">
       <Eyebrow>The problem</Eyebrow>
@@ -18,7 +17,7 @@ export default function Archive() {
           <Rise i={i + 1} key={n.label}>
             <Block className="h-full">
               <p className="numeral font-display text-4xl font-medium text-ink">
-                <Counter value={n.value} duration={1400} intro />
+                {n.value}
                 {n.suffix && <span className="text-2xl text-ink-soft">{n.suffix}</span>}
               </p>
               <p className="mt-1 text-base font-medium">{n.label}</p>

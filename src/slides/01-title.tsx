@@ -7,11 +7,9 @@ import WeightHover from '../components/originkit/weight-hover'
 export default function Title() {
   return (
     <Stage accent="teal" className="justify-center overflow-hidden py-24">
-      {/* soft aurora over the paper, light-mode shader, no interaction */}
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60">
         <SoftAurora lightMode speed={0.35} brightness={0.5} color1="#0f766e" color2="#d9a441" scale={1.4} />
       </div>
-      {/* Originkit: a square trail under the pointer, in the deck's palette */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <DashCursor headColor="#211f1e" trailColor="#0f766e" trail={14} blockSize={22} label={false} />
       </div>
@@ -40,7 +38,6 @@ export default function Title() {
         </p>
       </Rise>
 
-      {/* Originkit: variable-font letters that weigh up under the pointer */}
       <Rise i={3} className="mt-10 inline-flex flex-col items-start gap-2">
         <WeightHover label="Plan less, remember better." fontSize={44} color="#211f1e" fromWeight={300} toWeight={700} staggerDuration={26} />
         <span className="text-sm text-ink-soft">hover the line — the weight follows the pointer</span>
@@ -50,7 +47,7 @@ export default function Title() {
         <p className="text-sm text-ink-soft">
           Built with React Bits · Originkit · Anatomy · Tailwind. Arrow keys or the buttons
           below move through the deck;{' '}
-          <span className="mono">#/17</span> links straight to the similarity maths.
+          <span className="mono">#/5</span> links straight to the worked example.
         </p>
       </Rise>
     </Stage>
