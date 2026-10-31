@@ -1,5 +1,5 @@
 import { Stage, Display, Eyebrow, Rise, Block, Mark } from '../deck/primitives'
-import { Q, DATA, leaf, retrieved, distKm, SPLIT, LEAF_CAP, bucketOf, hhmm, cell } from '../data/cases'
+import { Q, DATA, leaf, retrieved, distKm, SPLIT, LEAF_CAP, hhmm, cell } from '../data/cases'
 
 const n = (v: number, d = 3) => v.toFixed(d)
 
@@ -12,14 +12,14 @@ export default function Worked() {
   return (
     <Stage accent="blue">
       <Eyebrow>Worked example</Eyebrow>
-      <Display className="mt-4 max-w-[28ch]">Order N at 08:12 — end to end</Display>
+      <Display className="mt-4 max-w-[28ch]">Order N at 08:12 — the whole story</Display>
 
       <Rise i={1} className="mt-8">
         <Block>
           <Mark>order N · 08:12 · target ≤ 25 min</Mark>
           <dl className="mt-4 grid gap-2 sm:grid-cols-2 text-base">
             <div><dt className="text-ink-soft">Destination</dt><dd className="mono">({Q.dest.x.toFixed(2)}, {Q.dest.y.toFixed(2)}) km · cell {cell(Q.dest)}</dd></div>
-            <div><dt className="text-ink-soft">Time of day</dt><dd className="mono">{hhmm(Q.minutes)} · {bucketOf(Q.minutes).label}</dd></div>
+            <div><dt className="text-ink-soft">Time of day</dt><dd className="mono">{hhmm(Q.minutes)} · morning peak</dd></div>
             <div><dt className="text-ink-soft">Traffic</dt><dd className="mono">{DATA.query.traffic}</dd></div>
             <div><dt className="text-ink-soft">Day / weather</dt><dd className="mono">{DATA.query.dayType} · {DATA.query.weather}</dd></div>
           </dl>
@@ -45,14 +45,14 @@ export default function Worked() {
             <thead>
               <tr className="text-ink-soft">
                 <th className="pb-2 pr-3 font-medium">candidate</th>
-                <th className="pb-2 pr-3 font-medium">d (km)</th>
-                <th className="pb-2 pr-3 font-medium">s_coord</th>
-                <th className="pb-2 pr-3 font-medium">Δt (min)</th>
-                <th className="pb-2 pr-3 font-medium">s_time</th>
+                <th className="pb-2 pr-3 font-medium">distance (km)</th>
+                <th className="pb-2 pr-3 font-medium">coord score</th>
+                <th className="pb-2 pr-3 font-medium">time diff (min)</th>
+                <th className="pb-2 pr-3 font-medium">time score</th>
                 <th className="pb-2 pr-3 font-medium">traffic</th>
                 <th className="pb-2 pr-3 font-medium">day</th>
                 <th className="pb-2 pr-3 font-medium">weather</th>
-                <th className="pb-2 pr-0 font-medium">sim</th>
+                <th className="pb-2 pr-0 font-medium">total sim</th>
               </tr>
             </thead>
             <tbody className="numeral">
@@ -65,7 +65,7 @@ export default function Worked() {
                     style={isBest ? { background: 'color-mix(in oklab, var(--section-accent) 10%, white)' } : undefined}
                   >
                     <td className="py-1.5 pr-3 font-semibold" style={isBest ? { color: 'var(--section-accent)' } : undefined}>
-                      {l.c.id} {isBest && <span className="ml-2 text-xs font-medium">← retrieved</span>}
+                      {l.c.id} {isBest && <span className="ml-2 text-xs font-medium">← picked</span>}
                     </td>
                     <td className="py-1.5 pr-3">{n(l.d, 3)}</td>
                     <td className="py-1.5 pr-3">{n(l.sCoord)}</td>
@@ -83,14 +83,14 @@ export default function Worked() {
             </tbody>
           </table>
           <p className="mono mt-3 text-sm text-ink-soft">
-            sim = 0.40·s_coord + 0.25·s_time + 0.20·s_traffic + 0.10·s_day + 0.05·s_weather
+            sim = 0.40×coord + 0.25×time + 0.20×traffic + 0.10×day + 0.05×weather
           </p>
         </Block>
       </Rise>
 
       <Rise i={4}>
         <Block className="mt-4">
-          <Mark>Retrieved: {retrieved.c.id} · sim {n(retrieved.sim)}</Mark>
+          <Mark>Picked: {retrieved.c.id} · sim {n(retrieved.sim)}</Mark>
           <p className="mt-2 text-base leading-relaxed text-ink-soft">
             Reused R-0512's route (driven {retrieved.c.actualMin.toFixed(1)} min on a comparable morning).
             Runner-up at {n(leaf[0].c.id === retrieved.c.id ? leaf[1].sim : leaf[0].sim)}.

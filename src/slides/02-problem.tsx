@@ -1,9 +1,9 @@
 import { Stage, Display, Eyebrow, Rise, Lead, Block } from '../deck/primitives'
 
 const NUMBERS = [
-  { value: 12000, label: 'orders a day', note: 'each one planned from scratch today' },
-  { value: 40000, label: 'solved routes in the archive', note: 'every one already driven' },
-  { value: 8, suffix: '–40 s', label: 'routing compute per order', note: 'before the first parcel moves' },
+  { value: 12000, label: 'orders per day', note: 'each one planned from scratch right now' },
+  { value: 40000, label: 'past routes in the archive', note: 'every one already driven and solved' },
+  { value: 8, suffix: '–40 s', label: 'compute time per order', note: 'before the first parcel even moves' },
 ]
 
 export default function Problem() {

@@ -4,19 +4,19 @@ import SpotlightCard from '../components/reactbits/SpotlightCard'
 const STEPS = [
   {
     r: 'Retrieve',
-    line: 'Weighted k-NN over normalised features: coord 0.40, time 0.25, traffic 0.20, day 0.10, weather 0.05',
+    line: 'Find the closest past order — weighted by distance (40%), time of day (25%), traffic (20%), day type (10%), weather (5%)',
   },
   {
     r: 'Reuse',
-    line: 'Copy the route skeleton (ordered streets, timings); leave holes where the problems differ',
+    line: 'Copy the route skeleton (streets + timings); leave holes where the new order differs',
   },
   {
     r: 'Revise',
-    line: 'Test against live traffic & closures, repair mismatches, re-score before dispatch',
+    line: 'Test against live traffic and road closures, repair any mismatches, re-score before sending the driver',
   },
   {
     r: 'Retain',
-    line: 'Store problem + repaired solution + outcome → next similar order is faster to answer',
+    line: 'Save the new order, its adapted route, and the outcome — so the next similar order is faster',
   },
 ]
 
@@ -24,7 +24,7 @@ export default function Cycle() {
   return (
     <Stage accent="blue">
       <Eyebrow>The CBR cycle</Eyebrow>
-      <Display className="mt-4 max-w-[24ch]">The 4-R loop in delivery terms</Display>
+      <Display className="mt-4 max-w-[24ch]">The 4-R loop in plain language</Display>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-4">
         {STEPS.map((s, i) => (
@@ -57,9 +57,9 @@ export default function Cycle() {
 
       <Rise i={6} className="mt-10">
         <Lead>
-          The loop closes on itself: <span className="prose-strong">Retain feeds Retrieve</span>.
-          CBR's knowledge sits in four containers — the case base, the vocabulary, the similarity
-          measure and the adaptation knowledge. Three of the four are learned from deliveries.
+          The loop feeds itself: <span className="prose-strong">Retain makes the next Retrieve smarter</span>.
+          The system has four knowledge pieces — the case library, the vocabulary, the similarity measure,
+          and the adaptation rules. Three of them are learned from actual deliveries.
         </Lead>
       </Rise>
     </Stage>

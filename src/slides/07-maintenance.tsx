@@ -8,17 +8,17 @@ const utility = (id: string) => {
 const sorted = [...leaf].sort((a, b) => utility(b.c.id) - utility(a.c.id))
 
 const PRUNE = [
-  { title: 'Budget', body: 'Cap by rows (30k), memory, or query-latency SLA. Without a number, every policy is a vibe.' },
-  { title: 'Utility-weighted forgetting', body: 'U(c) = success rate × reuses ÷ (1 + days since last use). Delete lowest U under budget; random is baseline.' },
-  { title: 'Footprint pruning', body: 'Delete cases whose neighbours already cover the same competence region — redundancy, not value, bloats the base.' },
-  { title: 'Condensation', body: 'Cluster old quiet regions; keep exemplars (medoids). Cold regions shrink to a handful instead of thousands of near-duplicates.' },
+  { title: 'Set a budget', body: 'Cap by rows (30k), memory, or query-time SLA. Without a number, every policy is just a vibe.' },
+  { title: 'Utility-weighted forgetting', body: 'U(c) = success rate × reuses ÷ (1 + days since last use). Delete the lowest U under budget; random deletion is the baseline.' },
+  { title: 'Footprint pruning', body: 'Delete cases whose neighbours already cover the same area — redundancy, not value, bloats the base.' },
+  { title: 'Condensation', body: 'Cluster old quiet regions; keep the exemplars. Cold regions shrink to a handful instead of thousands of near-duplicates.' },
 ]
 
 const STALE = [
-  { title: 'Age: expiry + decay', body: 'Retire cases > 90 days; multiply similarity by exp(−λ·age). Old-but-good still competes, loses ties.' },
-  { title: 'Events beat clocks', body: 'Topology change (new bridge, permanent closure) invalidates a region immediately — purge or re-tag, don\'t wait for expiry.' },
-  { title: 'Regimes & provenance', body: 'Tag cases pre/post each event; retrieval prefers current regime. Provenance makes "why this route?" answerable.' },
-  { title: 'Watch the drift', body: 'Track recall@1 offline, index drift (best cases outside walked branch), Revise failure rate — that last one is the staleness alarm.' },
+  { title: 'Age: expiry + decay', body: 'Retire cases > 90 days; multiply similarity by exp(−λ·age). Old-but-good still competes, just loses ties.' },
+  { title: 'Events beat clocks', body: 'A new bridge or permanent closure invalidates a region immediately — purge or re-tag, don\'t wait for expiry.' },
+  { title: 'Regimes & provenance', body: 'Tag cases pre/post each event; retrieval prefers the current regime. Provenance makes "why this route?" answerable.' },
+  { title: 'Watch the drift', body: 'Track recall@1 offline, index drift (best cases found outside the walked branch), Revise failure rate — that last one is the staleness alarm.' },
 ]
 
 export default function Maintenance() {
@@ -38,8 +38,8 @@ export default function Maintenance() {
                     <th className="pb-2 pr-3 font-medium">case</th>
                     <th className="pb-2 pr-3 font-medium">uses</th>
                     <th className="pb-2 pr-3 font-medium">outcome</th>
-                    <th className="pb-2 pr-3 font-medium">TSK (days)</th>
-                    <th className="pb-2 pr-0 font-medium">U</th>
+                    <th className="pb-2 pr-3 font-medium">days since used</th>
+                    <th className="pb-2 pr-0 font-medium">utility</th>
                   </tr>
                 </thead>
                 <tbody className="numeral">
@@ -57,7 +57,7 @@ export default function Maintenance() {
                 </tbody>
               </table>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                Utility ranks R-0512 first — the case retrieve keeps choosing — and R-0450 last.
+                Utility ranks R-0512 first — the case retrieve keeps picking — and R-0450 last.
                 Forgetting is the <span className="prose-strong">only</span> policy that removes a case the tree still finds useful.
               </p>
             </Block>

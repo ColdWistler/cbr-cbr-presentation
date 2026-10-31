@@ -32,9 +32,9 @@ export default function Title() {
 
       <Rise i={2}>
         <p className="mt-6 max-w-[62ch] text-lg leading-relaxed text-ink-soft">
-          A last-mile fleet that answers a new order by remembering the ones it already ran —
-          the four Rs, a case memory built for retrieval, one worked example end to end, and
-          how the memory is kept small and fresh.
+          A delivery fleet that answers each new order by remembering the routes it already drove —
+          the four-step cycle, a memory built for fast lookup, one complete example, and how the
+          memory stays small and fresh.
         </p>
       </Rise>
 
@@ -47,7 +47,7 @@ export default function Title() {
         <p className="text-sm text-ink-soft">
           Built with React Bits · Originkit · Anatomy · Tailwind. Arrow keys or the buttons
           below move through the deck;{' '}
-          <span className="mono">#/5</span> links straight to the worked example.
+          <span className="mono">#/5</span> jumps straight to the worked example.
         </p>
       </Rise>
     </Stage>

@@ -2,7 +2,7 @@ import { Stage, Display, Eyebrow, Rise, Block, Split } from '../deck/primitives'
 
 const LINES: [string, string][] = [
   ['The 4-R loop', 'Retrieve → Reuse → Revise → Retain. Retain makes the next Retrieve smarter; Revise keeps it honest.'],
-  ['Memory needs an index', 'Destination coordinates + time of day turn an O(N) scan into a guided tree walk.'],
+  ['Memory needs an index', 'Destination coordinates + time of day turn a full scan into a guided tree walk.'],
   ['The worked order', '08:12 to cell C-14 walked to x=1 / y=4 / morning peak / moderate, retrieved R-0512 at 0.998, adapted around a closure, retained as N-1187 — which split the drawer.'],
   ['Table vs tree', 'Tables exact, trees fast. Production runs the hybrid: tree shortlist + weighted metric re-rank.'],
   ['Maintenance is a feature', 'Utility-weighted forgetting, footprint pruning, expiry, regime tags, re-indexing keep the base small, fast and fresh.'],
@@ -36,7 +36,7 @@ export default function Recap() {
       <Rise i={8} className="mt-12">
         <Split ratio="50/50">
           <div>
-            <h3 className="font-display text-lg font-medium">Resources</h3>
+            <h3 className="font-display text-lg font-medium">References</h3>
             <ul className="mt-2 space-y-2 text-base text-ink-soft">
               <li><span className="prose-strong">Aamodt & Plaza (1994)</span> — the four Rs this deck is built on</li>
               <li><span className="prose-strong">Smyth & Keane (1995)</span> — footprint-based competence models for forgetting</li>

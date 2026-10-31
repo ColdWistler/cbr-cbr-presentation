@@ -23,7 +23,7 @@ const MAP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
     return `<rect x="${(sx - 10).toFixed(1)}" y="${(sy - 10).toFixed(1)}" width="20" height="20" fill="none" stroke="#211f1e" stroke-width="2.4"/>
     <text x="${(sx + 16).toFixed(1)}" y="${(sy - 14).toFixed(1)}" font-family="monospace" font-size="17" font-weight="700" fill="#211f1e">N</text>`
   })()}
-  <text x="132" y="386" font-family="monospace" font-size="14" fill="#57534e">1 km cells · depot at origin · dots = past cases (purple = this branch's leaf)</text>
+  <text x="132" y="386" font-family="monospace" font-size="14" fill="#57534e">1 km grid · depot at origin · dots = past cases (purple = this branch's leaf)</text>
 </svg>`
 
 const mapDataUri = `data:image/svg+xml,${encodeURIComponent(MAP_SVG)}`
@@ -42,14 +42,14 @@ export default function Memory() {
                 <thead>
                   <tr className="text-ink-soft">
                     <th className="pb-2 pr-3 font-medium">case</th>
-                    <th className="pb-2 pr-3 font-medium">dest (x, y)</th>
+                    <th className="pb-2 pr-3 font-medium">destination (x, y)</th>
                     <th className="pb-2 pr-3 font-medium">zone</th>
                     <th className="pb-2 pr-3 font-medium">km</th>
                     <th className="pb-2 pr-3 font-medium">time</th>
                     <th className="pb-2 pr-3 font-medium">bucket</th>
                     <th className="pb-2 pr-3 font-medium">traffic</th>
-                    <th className="pb-2 pr-3 font-medium">actual</th>
-                    <th className="pb-2 pr-0 font-medium">outcome</th>
+                    <th className="pb-2 pr-3 font-medium">actual time</th>
+                    <th className="pb-2 pr-0 font-medium">result</th>
                   </tr>
                 </thead>
                 <tbody className="numeral">
@@ -80,16 +80,16 @@ export default function Memory() {
           <Rise i={2}>
             <p className="mt-4 text-sm leading-relaxed text-ink-soft">
               Ten of 40,000 rows. Highlighted = the three cases order N reaches.
-              <span className="prose-strong">This table is the case base</span> — the tree is only an index over it.
+              <span className="prose-strong">This table is the case base</span> — the tree is just an index on top of it.
             </p>
           </Rise>
         </div>
         <div>
           <Rise i={2}>
             <FrostGlassCard
-              image={{ src: mapDataUri, alt: 'Plan of the leaf neighbourhood with the new order N' }}
+              image={{ src: mapDataUri, alt: 'Map of the leaf neighbourhood with the new order N' }}
               title="Where order N lands"
-              description="Purple dots: the three cases in the walked branch. Frosted glass clears under your pointer."
+              description="Purple dots = the three cases in the walked branch. Frosted glass clears under your pointer."
               cardWidth={620}
               cardHeight={390}
               textColor="#211f1e"
@@ -101,11 +101,11 @@ export default function Memory() {
           </Rise>
           <Rise i={3}>
             <Block className="mt-4">
-              <h3 className="font-display text-lg font-medium">Discrimination tree</h3>
+              <h3 className="font-display text-lg font-medium">The discrimination tree</h3>
               <ul className="mt-2 space-y-2 text-base text-ink-soft">
-                <li><Dot className="mr-2" /> Index attributes, in order: <span className="mono">dest x-band → dest y-band → time bucket → traffic</span></li>
-                <li><Dot className="mr-2" /> Fan-out = attribute cardinality; leaf cap = 3 cases</li>
-                <li><Dot className="mr-2" /> Insert = walk to leaf and store; over-cap leaves split on next unused attribute</li>
+                <li><Dot className="mr-2" /> Index attributes, in order: <span className="mono">x-band → y-band → time bucket → traffic</span></li>
+                <li><Dot className="mr-2" /> Fan-out = number of possible values; leaf cap = 3 cases</li>
+                <li><Dot className="mr-2" /> Insert = walk to a leaf and store; when a leaf exceeds 3, it splits on the next unused attribute</li>
               </ul>
             </Block>
           </Rise>

@@ -1,10 +1,10 @@
 import { Stage, Display, Eyebrow, Rise, Block, Lead } from '../deck/primitives'
 
 const ROWS: [string, string, string, string][] = [
-  ['Query cost', 'O(N) — 40k similarity computations per order', 'O(log N) — ~10 nodes walked', 'O(log N) + k (tree shortlist, metric re-rank)'],
-  ['Result quality', 'Exact nearest neighbour always', 'Approximate: best case may sit one branch over', 'As good as table for the shortlist it scores'],
-  ['Weights', 'Any feature, any weight, free', 'Only index attributes reachable; rest need metric', 'Weights live in the re-rank, not the tree'],
-  ['Staleness', 'Stale = fresh', 'Stale branch keeps attracting old queries', 'Regime tags filter before ranking'],
+  ['Query speed', 'Checks all 40,000 rows — too slow for real-time', 'Walks ~10 nodes — instant', 'Tree walk + small re-rank — best of both'],
+  ['Result quality', 'Always finds the exact closest match', 'Approximate: best match might be one branch over', 'As good as table for the shortlist it scores'],
+  ['Changing weights', 'Any feature, any weight — no rebuild needed', 'Only indexed attributes are searchable; others ignored', 'Weights live in the re-rank, not the tree'],
+  ['Stale data', 'Old and new cases treated equally', 'Stale branch keeps attracting old queries', 'Regime tags filter out old cases first'],
 ]
 
 export default function Retrieval() {
@@ -23,7 +23,7 @@ export default function Retrieval() {
                 <th className="pb-2 pr-3 font-medium" style={{ color: 'var(--section-accent)' }}>
                   Discrimination tree
                 </th>
-                <th className="pb-2 pr-0 font-medium text-ink-soft">Hybrid (recommended)</th>
+                <th className="pb-2 pr-0 font-medium text-ink-soft">Hybrid (what we recommend)</th>
               </tr>
             </thead>
             <tbody>
@@ -42,8 +42,8 @@ export default function Retrieval() {
 
       <Rise i={2} className="mt-6">
         <Lead>
-          The tree is <span className="prose-strong">fast and lossy</span>; the table is exact and slow.
-          Production runs the hybrid: the tree proposes a shortlist, the weighted metric decides —
+          The tree is <span className="prose-strong">fast but approximate</span>; the table is exact but slow.
+          Production uses the hybrid: the tree proposes a shortlist, the weighted metric decides —
           the same division of labour the CBR cycle uses everywhere else.
         </Lead>
       </Rise>
