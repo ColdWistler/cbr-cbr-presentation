@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case-Based Reasoning for Smart Navigation & Delivery System</title>
+    <style>
+        :root {
+            --bg-light: #f8f9fa;
+            --bg-dark: #1a1d23;
+            --accent: #4f6ef7;
+            --accent-hover: #3b5de7;
+            --text-light: #212529;
+            --text-dark: #e9ecef;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --glass: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255,255,255,0.1);
+        }
+        .light-theme {
+            --bg: var(--bg-light);
+            --card-bg: #ffffff;
+            --text: var(--text-dark);
+            --border-color: #dee2e6;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .dark-theme {
+            --bg: var(--bg-dark);
+            --card-bg: #2d3142;
+            --text: #e9ecef;
+            --border-color: #3a3f4b;
+            --shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        .light-theme body { background: var(--bg-light); color: var(--text-light); }
+        .dark-theme body { background: var(--bg); color: var(--text-dark); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        h1 { color: var(--accent); }
+        .section { margin-bottom: 2rem; }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .section-title h2 { font-size: 1.5rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .card h3 { margin-bottom: 0.75rem; color: var(--accent); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th { background: #f8f9fa; font-weight: 600; }
+        tr:hover { background: #f1f3f5; }
+        .discrimination-tree {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        .discrimination-tree ul { list-style: none; }
+        .discrimination-tree li {
+            padding: 0.5rem 0;
+            border-left: 3px solid var(--accent);
+            margin: 0.25rem 0;
+        }
+        .discrimination-tree li::before {
+            content: "✓ ";
+            color: var(--accent);
+        }
+        .worked-example {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-top: 1.5rem;
+        }
+        .worked-example h3 { margin-bottom: 0.5rem; }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comparison-table th { background: #f8f9fa; }
+        .action-bullets {
+            list-style: none;
+            padding-left: 0;
+        }
+        .action-bullets li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .action-bullets li::before {
+            content: "✓ ";
+            color: var(--accent);
+            position: absolute;
+            left: -0.75rem;
+        }
+        .nav-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+        .nav-btn:hover { background: var(--accent-hover); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+                .svg-diagram {
+            width: 100%;
+            max-width: 600px;
+            margin: 1rem auto;
+            display: block;
+        }
+        .svg-diagram path,
+        .svg-diagram rect,
+        .svg-diagram circle,
+        .svg-diagram text {
+            transition: all 0.3s ease;
+        }
+        .svg-diagram .highlight {
+            stroke: #4f6ef7;
+            stroke-width: 3px;
+            filter: brightness(1.1);
+        }
+        .svg-diagram:hover path,
+        .svg-diagram:hover rect,
+        .svg-diagram:hover circle {
+            filter: brightness(1.05);
+        }
+        /* Glassmorphism effects */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+        .glass-nav {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <h1>Case-Based Reasoning for Smart Navigation & Delivery System</h1>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>What is Case-Based Reasoning (CBR)?</h2>
+                <p>CBR is a problem-solving approach that solves new problems by retrieving and adapting solutions from a past case library. In a smart delivery system, it enables the platform to reuse proven routes instead of planning from scratch.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>The CBR Cycle</h2>
+            </div>
+            <div class="grid">
+                <div class="card glass-card">
+                    <h3>1. Retrieve</h3>
+                    <p>Match a new problem (new delivery order) against the case memory to find the most similar past route.</p>
+                </div>
+                <div class="card glass-card">
+                    <h3>2. Reuse</h3>
+                    <p>Adapt the retrieved route to current conditions (traffic, road closures, time of day).</p>
+                </div>
+                <div class="card glass-card">
+                    <h3>3. Revise</h3>
+                    <p>Refine the adapted route based on real-time feedback and update the case memory.</p>
+                </div>
+                <div class="card glass-card">
+                    <h3>4. Retain</h3>
+                    <p>Store the new case (or updated version) in the case memory for future reuse.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>Case Memory Design</h2>
+            </div>
+            
+            <div class="card glass-card">
+                <h3>Tabular Representation</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Traffic Conditions</th>
+                            <th>Time of Day</th>
+                            <th>Estimated Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>R-001</td>
+                            <td>Downtown Hub</td>
+                            <td>Westside Warehouse</td>
+                            <td>Light traffic</td>
+                            <td>08:00 AM</td>
+                            <td>45 min</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>R-002</td>
+                            <td>Westside Hub</td>
+                            <td>North District Center</td>
+                            <td>Heavy traffic</td>
+                            <td>14:30 PM</td>
+                            <td>60 min</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>R-003</td>
+                            <td>North District Hub</td>
+                            <td>Eastside Warehouse</td>
+                            <td>Moderate traffic</td>
+                            <td>19:00 PM</td>
+                            <td>50 min</td>
+                            <td>Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card glass-card">
+                <h3>Discrimination Tree (Indexing)</h3>
+                <div class="discrimination-tree">
+                    <ul>
+                        <li><strong>Destination Coordinates</strong> (x, y, z) – used for spatial similarity</li>
+                        <li><strong>Time of Day</strong> (morning, afternoon, evening, night) – temporal context</li>
+                        <li><strong>Traffic Conditions</strong> (light, moderate, heavy) – road state</li>
+                        <li><strong>Route Length</strong> – total distance</li>
+                        <li><strong>Historical Success Rate</strong> – past performance</li>
+                    </ul>
+                    <p><strong>Indexing Strategy:</strong> Each case is indexed by a composite key combining these attributes. The most similar case is found by computing a similarity score (e.g., cosine similarity on normalized vectors).</p>
+                </div>
+                <svg class="svg-diagram" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" aria-label="Discrimination tree visualization">
+                    <defs>
+                        <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4f6ef7" stop-opacity="0.8"/><stop offset="100%" stop-color="#3b5de7" stop-opacity="0.4"/></linearGradient>
+                    </defs>
+                    <!-- Root -->
+                    <rect x="210" y="10" width="100" height="40" rx="8" fill="url(#grad1)" stroke="#4f6ef7" stroke-width="2"/>
+                    <text x="260" y="37" text-anchor="middle" fill="#fff" font-family="sans-serif" font-size="13" font-weight="600">Root Case</text>
+                    <!-- Branch 1 -->
+                    <line x1="260" y1="50" x2="120" y2="90" stroke="#4f6ef7" stroke-width="2"/>
+                    <rect x="70" y="90" width="100" height="40" rx="8" fill="#2d3142" stroke="#4f6ef7" stroke-width="2"/>
+                    <text x="120" y="115" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="12">Dest Coordinates</text>
+                    <!-- Branch 2 -->
+                    <line x1="260" y1="50" x2="320" y2="90" stroke="#4f6ef7" stroke-width="2"/>
+                    <rect x="270" y="90" width="100" height="40" rx="8" fill="#2d3142" stroke="#4f6ef7" stroke-width="2"/>
+                    <text x="320" y="115" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="12">Time of Day</text>
+                    <!-- Leaves -->
+                    <line x1="120" y1="130" x2="60" y2="170" stroke="#4f6ef7" stroke-width="1.5"/>
+                    <line x1="120" y1="130" x2="180" y2="170" stroke="#4f6ef7" stroke-width="1.5"/>
+                    <rect x="30" y="170" width="60" height="30" rx="6" fill="#3a3f4b" stroke="#4f6ef7" stroke-width="1"/>
+                    <text x="60" y="188" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="10">Light</text>
+                    <rect x="140" y="170" width="80" height="30" rx="6" fill="#3a3f4b" stroke="#4f6ef7" stroke-width="1"/>
+                    <text x="180" y="188" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="10">Heavy</text>
+
+                    <line x1="320" y1="130" x2="270" y2="170" stroke="#4f6ef7" stroke-width="1.5"/>
+                    <line x1="320" y1="130" x2="370" y2="170" stroke="#4f6ef7" stroke-width="1.5"/>
+                    <rect x="230" y="170" width="80" height="30" rx="6" fill="#3a3f4b" stroke="#4f6ef7" stroke-width="1"/>
+                    <text x="270" y="188" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="10">Morning</text>
+                    <rect x="340" y="170" width="100" height="30" rx="6" fill="#3a3f4b" stroke="#4f6ef7" stroke-width="1"/>
+                    <text x="390" y="188" text-anchor="middle" fill="#e9ecef" font-family="sans-serif" font-size="10">Evening</text>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>Worked Example</h2>
+            </div>
+            <div class="worked-example">
+                <h3>Scenario: New Delivery Order</h3>
+                <p>When a new order arrives from <strong>Westside Hub</strong> to <strong>North District Center</strong> at <strong>14:30 PM</strong>, the system performs the following:</p>
+                <ol>
+                    <li><strong>Retrieve:</strong> The system searches the case memory and finds <strong>R-002</strong> (Westside Hub → North District Center at 14:30 PM, moderate traffic, 60 min).</li>
+                    <li><strong>Reuse:</strong> The base route from R-002 is loaded as a template.</li>
+                    <li><strong>Revise:</strong> Current conditions show <strong>heavy traffic</strong> and <strong>evening time</strong>. The system adjusts the route by adding a detour around the congestion zone and extending the estimated time to <strong>75 min</strong>.</li>
+                    <li><strong>Retain:</strong> The updated case <strong>R-002-modified</strong> is stored in the memory with a new status.</li>
+                </ol>
+                <p><strong>Result:</strong> The delivery driver follows the adapted route, arriving 15 minutes earlier than the original estimate despite the traffic.</p>
+                <svg class="svg-diagram" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" aria-label="Delivery route comparison">
+                    <defs>
+                        <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f6ef7" stop-opacity="0.8"/><stop offset="100%" stop-color="#3b5de7" stop-opacity="0.4"/></linearGradient>
+                    </defs>
+                    <!-- Original route (dashed) -->
+                    <path d="M 50 100 Q 150 50 250 100 T 450 100" stroke="#4f6ef7" stroke-width="2" stroke-dasharray="10,5" fill="none" opacity="0.5"/>
+                    <text x="480" y="110" text-anchor="end" fill="#4f6ef7" font-family="sans-serif" font-size="12">Original Route</text>
+                    
+                    <!-- Adapted route (solid) -->
+                    <path d="M 50 100 Q 100 80 150 70 Q 200 60 250 70 T 450 70" stroke="#4f6ef7" stroke-width="2" fill="url(#routeGrad)" stroke-linecap="round"/>
+                    <text x="480" y="80" text-anchor="end" fill="#4f6ef7" font-family="sans-serif" font-size="12">Adapted Route</text>
+                    
+                    <!-- Traffic zone (red area) -->
+                    <rect x="140" y="70" width="100" height="40" fill="#ff4d4d" fill-opacity="0.2" stroke="#ff4d4d" stroke-width="1"/>
+                    <text x="190" y="90" text-anchor="middle" fill="#ff4d4d" font-family="sans-serif" font-size="11">Heavy Traffic Zone</text>
+                    
+                    <!-- Detour path -->
+                    <path d="M 250 70 Q 270 40 300 50 Q 320 60 350 50" stroke="#4f6ef7" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <text x="350" y="70" text-anchor="end" fill="#4f6ef7" font-family="sans-serif" font-size="12">Detour</text>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>Tabular vs. Tree-Based Retrieval</h2>
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Tabular (Indexed List)</th>
+                        <th>Tree-Based (Discrimination Tree)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Search Speed</td>
+                        <td>O(n) – linear scan of all cases</td>
+                        <td>O(log n) – hierarchical traversal</td>
+                    </tr>
+                    <tr>
+                        <td>Flexibility</td>
+                        <td>Good for simple key lookups</td>
+                        <td>Excellent for multi-dimensional similarity</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Overhead</td>
+                        <td>Low – just store case records</td>
+                        <td>Higher – need tree structure, indexes</td>
+                    </tr>
+                    <tr>
+                        <td>Handling New Cases</td>
+                        <td>Append to list</td>
+                        <td>Insert into appropriate branch</td>
+                    </tr>
+                    <tr>
+                        <td>Staleness Management</td>
+                        <td>Manual refresh</td>
+                        <td>Automatic pruning of outdated branches</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Recommendation: Use a hybrid approach – a fast tabular index for initial filtering, then a discrimination tree for fine-grained matching.</em></p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>Keeping the Case Base Manageable</h2>
+            </div>
+            <div class="glass-card">
+                <h3>Preventing Growth</h3>
+                <ul class="action-bullets">
+                    <li><strong>Periodic Pruning:</strong> Remove cases older than X months or with low reuse rate.</li>
+                    <li><strong>Similarity Thresholding:</strong> Discard cases whose similarity score falls below a minimum.</li>
+                    <li><strong>Versioning:</strong> Keep only the best version of each route; discard obsolete variants.</li>
+                    <li><strong>Caching:</strong> Store frequently accessed cases in memory for O(1) retrieval.</li>
+                    <li><strong>Automatic Archiving:</strong> Move rarely used cases to cold storage (e.g., S3) instead of deleting.</li>
+                </ul>
+            </div>
+            <div class="glass-card">
+                <h3>Handling Staleness</h2>
+                <p>As traffic patterns change, old routes may become suboptimal. The system should:</p>
+                <ol>
+                    <li>Recompute similarity scores periodically.</li>
+                    <li>Flag routes with degraded performance.</li>
+                    <li>Trigger a <strong>Revise</strong> cycle when a route is marked stale.</li>
+                    <li>Periodically re-index the case memory to reflect current conditions.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <h2>Key Takeaways</h2>
+            </div>
+            <ul>
+                <li>CBR enables smart delivery systems to reuse proven routes instead of planning from scratch.</li>
+                <li>The CBR cycle (Retrieve → Reuse → Revise → Retain) provides a structured decision process.</li>
+                <li>Index attributes like destination coordinates, time of day, and traffic conditions enable effective discrimination.</li>
+                <li><strong>Tabular indexing offers speed; discrimination trees offer precision – use both together.</li>
+                <li>Regular pruning, versioning, and caching keep the case base from growing uncontrollably.</li>
+            </ul>
+        </div>
+        
+        <!-- Interactive CBR Cycle -->
+        <div class="section" style="margin-bottom: 0;">
+            <div class="section-title">
+                <h2>Interactive CBR Cycle</h2>
+            </div>
+            <div class="card glass-card">
+                <p style="margin-bottom: 1rem; opacity: 0.9;">The interactive CBR cycle below simulates how a new delivery order is processed. Click each step to see how the system retrieves, reuses, revises, and retains a route.</p>
+                <div id="cbr-cycle" style="position: relative;">
+                    <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="background: var(--card-bg); border-radius: var(--radius); padding: 1rem;">
+                        <defs>
+                            <linearGradient id="cycGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4f6ef7" stop-opacity="0.8"/><stop offset="100%" stop-color="#3b5de7" stop-opacity="0.4"/></linearGradient>
+                            <linearGradient id="cycGrad2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6c5ce7" stop-opacity="0.8"/><stop offset="100%" stop-color="#00d97e" stop-opacity="0.4"/></linearGradient>
+                        </defs>
+                        <rect width="600" height="300" fill="url(#cycGrad1)" rx="12" ry="12"/>
+                        <!-- Step boxes -->
+                        <g id="steps">
+                            <!-- Step 1: Retrieve -->
+                            <rect id="step-retrieve" x="50" y="80" width="150" height="80" rx="12" ry="12" fill="#fff" stroke="#4f6ef7" stroke-width="2"/>
+                            <text x="125" y="110" text-anchor="middle" fill="#4f6ef7" font-family="sans-serif" font-size="13" font-weight="600">Retrieve</text>
+                        </g>
+                        <g id="steps2">
+                            <!-- Step 2: Reuse -->
+                            <rect id="step-reuse" x="260" y="80" width="150" height="80" rx="12" ry="12" fill="#fff" stroke="#4f6ef7" stroke-width="2"/>
+                            <text x="335" y="110" text-anchor="middle" fill="#4f6ef7" font-family="sans-serif" font-size="13" font-weight="600">Reuse</text>
+                        </g>
+                        <g id="steps3">
+                            <!-- Step 3: Revise -->
+                            <rect id="step-revise" x="470" y="80" width="150" height="80" rx="12" ry="12" fill="#fff" stroke="#4f6ef7" stroke-width="2"/>
+                            <text x="545" y="110" text-anchor="middle" fill="#4f6ef7" font-family="sans-serif" font-size="13" font-weight="600">Revise</text>
+                        </g>
+                        <g id="steps4">
+                            <!-- Step 4: Retain -->
+                            <rect id="step-retain" x="230" y="180" width="150" height="80" rx="12" ry="12" fill="#fff" stroke="#4f6ef7" stroke-width="2"/>
+                            <text x="305" y="210" text-anchor="middle" fill="#4f6ef7" font-family="sans-serif" font-size="13" font-weight="600">Retain</text>
+                        </g>
+                        <g id="arrows">
+                            <line x1="195" y1="110" x2="260" y2="110" stroke="#4f6ef7" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="410" y1="110" x2="470" y2="110" stroke="#4f6ef7" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="375" y1="150" x2="375" y2="190" stroke="#4f6ef7" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                    <div id="cbr-info" style="position: absolute; top: 280px; left: 20px; right: 20px; padding: 1rem; background: var(--glass); backdrop-filter: blur(10px); border-radius: var(--radius); display: none;">
+                        <p id="cbr-step-text" style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-light);"></p>
+                        <button id="cbr-next-btn" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; width: 100%;">Next Step</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const steps = [
+                { id: 'step-retrieve', text: 'Retrieve: The system searches the case memory and finds the most similar past route (R-002).', completed: false },
+                { id: 'step-reuse', text: 'Reuse: The base route template is loaded and prepared for adaptation to current conditions.', completed: false },
+                { id: 'step-revise', text: 'Revise: The route is adapted for current traffic conditions, road closures, and time of day.', completed: false },
+                { id: 'step-retain', text: 'Retain: The updated case is stored in the case memory for future reuse.', completed: false }
+            ];
+            const stepElements = steps.map(s => document.getElementById(s.id));
+            const cbrStepText = document.getElementById('cbr-step-text');
+            const cbrNextBtn = document.getElementById('cbr-next-btn');
+            const cbrInfo = document.getElementById('cbr-info');
+            let currentStep = 0;
+            function highlightStep(stepIndex) {
+                stepElements.forEach((el, i) => {
+                    if (i === stepIndex) {
+                        el.style.boxShadow = '0 0 0 3px rgba(79, 110, 247, 0.4)';
+                        el.style.borderColor = '#4f6ef7';
+                    } else {
+                        el.style.boxShadow = 'none';
+                        el.style.borderColor = '#4f6ef7';
+                    }
+                });
+            }
+            function showStepInfo(stepIndex) {
+                cbrStepText.innerText = steps[stepIndex].text;
+                cbrInfo.style.display = 'block';
+                highlightStep(stepIndex);
+            }
+            function nextStep() {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStepInfo(currentStep);
+                } else {
+                    cbrInfo.style.display = 'none';
+                    currentStep = 0;
+                    stepElements.forEach(el => {
+                        el.style.boxShadow = 'none';
+                        el.style.borderColor = '#4f6ef7';
+                    });
+                }
+            }
+            stepElements.forEach((el, i) => {
+                el.addEventListener('click', () => {
+                    showStepInfo(i);
+                    currentStep = i;
+                });
+            });
+            cbrNextBtn.addEventListener('click', nextStep);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextStep();
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        showStepInfo(currentStep);
+                    }
+                }
+            });
+            showStepInfo(0);
+        </script>
+        <div class="footer">
+            <p>Smart Navigation & Delivery System – Case-Based Reasoning Implementation</p>
+            <p>Designed for GitHub Pages deployment. Inspired by Anatomy (SVG-based visualization) and OriginKit (dark theme, glassmorphism).</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+[
+  ["wait", 600],
+  ["key", "Enter"],
+  ["wait", 2400],
+  ["shot", "shots/walk.png"],
+  ["wait", 2500],
+  ["shot", "shots/retrieved.png"],
+  ["wait", 900],
+  ["click", "button[data-act=\"retain\"]"],
+  ["wait", 1300],
+  ["shot", "shots/divider.png"],
+  ["wait", 1000],
+  ["shot", "shots/divider2.png"],
+  ["wait", 2800],
+  ["shot", "shots/retained.png"],
+  ["click", "button[data-act=\"reset\"]"],
+  ["wait", 1200],
+  ["shot", "shots/reset.png"]
+]

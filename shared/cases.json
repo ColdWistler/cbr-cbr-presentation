@@ -1,0 +1,63 @@
+{
+  "comment": "Single source of truth for the worked example: the deck (src/data/cases.ts) and the Anatomy figure (figure/model.mjs) both read this file.",
+  "depot": { "x": 0, "y": 0, "name": "D1" },
+  "sigma": { "coordKm": 1.0, "timeMin": 30 },
+  "weights": { "coord": 0.4, "time": 0.25, "traffic": 0.2, "dayType": 0.1, "weather": 0.05 },
+  "buckets": [
+    { "id": "night", "label": "Night 00–06", "from": 0, "to": 360 },
+    { "id": "morning", "label": "Morning peak 06–09:30", "from": 360, "to": 570 },
+    { "id": "midday", "label": "Midday 09:30–16:00", "from": 570, "to": 960 },
+    { "id": "evening", "label": "Evening peak 16:00–19:00", "from": 960, "to": 1140 },
+    { "id": "late", "label": "Evening 19–24", "from": 1140, "to": 1440 }
+  ],
+  "storm": {
+    "event": "Elm St closed for works",
+    "window": "08:30–09:00",
+    "hit": "N's plan reaches Elm St at ~08:30",
+    "fix": "via Pine St",
+    "extraKm": 1.4,
+    "extraMin": 3.2,
+    "plan": 24.8,
+    "actual": 24.6
+  },
+  "query": {
+    "id": "N",
+    "dest": { "x": 1.4, "y": 4.7 },
+    "minutes": 492,
+    "traffic": "moderate",
+    "dayType": "weekday",
+    "weather": "clear",
+    "target": 25
+  },
+  "cases": [
+    { "id": "R-001", "dest": { "x": 1.55, "y": 1.62 }, "minutes": 478, "traffic": "heavy", "dayType": "weekday", "weather": "rain", "actualMin": 18.4, "outcome": "on-time", "uses": 14, "lastUsedDays": 2 },
+    { "id": "R-0142", "dest": { "x": 1.38, "y": 4.55 }, "minutes": 485, "traffic": "moderate", "dayType": "weekday", "weather": "clear", "actualMin": 21.2, "outcome": "on-time", "uses": 31, "lastUsedDays": 1 },
+    { "id": "R-0204", "dest": { "x": 1.62, "y": 4.81 }, "minutes": 1060, "traffic": "heavy", "dayType": "weekday", "weather": "clear", "actualMin": 26.5, "outcome": "on-time", "uses": 9, "lastUsedDays": 3 },
+    { "id": "R-0311", "dest": { "x": 2.35, "y": 4.7 }, "minutes": 510, "traffic": "moderate", "dayType": "weekday", "weather": "clear", "actualMin": 23.8, "outcome": "on-time", "uses": 12, "lastUsedDays": 1 },
+    { "id": "R-0363", "dest": { "x": 1.21, "y": 3.05 }, "minutes": 730, "traffic": "light", "dayType": "weekday", "weather": "clear", "actualMin": 14.9, "outcome": "on-time", "uses": 6, "lastUsedDays": 5 },
+    { "id": "R-0399", "dest": { "x": 2.44, "y": 4.66 }, "minutes": 483, "traffic": "heavy", "dayType": "weekday", "weather": "rain", "actualMin": 24.1, "outcome": "late", "uses": 4, "lastUsedDays": 6 },
+    { "id": "R-0450", "dest": { "x": 1.3, "y": 4.42 }, "minutes": 501, "traffic": "moderate", "dayType": "weekday", "weather": "clear", "actualMin": 20.9, "outcome": "on-time", "uses": 19, "lastUsedDays": 2 },
+    { "id": "R-0512", "dest": { "x": 1.33, "y": 4.69 }, "minutes": 489, "traffic": "moderate", "dayType": "weekday", "weather": "clear", "actualMin": 22.0, "outcome": "on-time", "uses": 40, "lastUsedDays": 1 },
+    { "id": "R-0677", "dest": { "x": 1.09, "y": 3.2 }, "minutes": 527, "traffic": "moderate", "dayType": "weekday", "weather": "clear", "actualMin": 19.4, "outcome": "on-time", "uses": 11, "lastUsedDays": 4 },
+    { "id": "R-0708", "dest": { "x": 1.6, "y": 4.95 }, "minutes": 1035, "traffic": "light", "dayType": "weekday", "weather": "clear", "actualMin": 24.7, "outcome": "on-time", "uses": 3, "lastUsedDays": 9 }
+  ],
+  "retained": {
+    "id": "N-1187",
+    "dest": { "x": 1.4, "y": 4.7 },
+    "minutes": 492,
+    "traffic": "moderate",
+    "dayType": "weekday",
+    "weather": "clear",
+    "actualMin": 24.6,
+    "outcome": "on-time",
+    "uses": 0,
+    "lastUsedDays": 0,
+    "adaptedFrom": "R-0512",
+    "regime": "post-closure-2026-10-14"
+  },
+  "index": {
+    "order": ["zoneX", "zoneY", "bucket", "traffic"],
+    "leafCap": 3,
+    "split": { "attribute": "distanceBand", "label": "distance band", "cutKm": 4.8, "low": "≤ 4.8 km", "high": "> 4.8 km" }
+  }
+}

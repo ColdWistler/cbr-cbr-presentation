@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — the "paper" system for a bright room (visual-design.md).
+   Ink #211f1e on paper #f7f3ea is 13.9:1; every accent below clears 4.5:1 on
+   paper at body size, which the QA pass measures against the rendered slides.
+   One accent per section; the accent never changes mid-section.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #f7f3ea;
+  --color-surface: #fffdf8;
+  --color-ink: #211f1e;
+  --color-ink-soft: #57534e;
+  --color-hairline: #e2d9c6;
+  --color-teal: #0f766e;
+  --color-red: #b3261e;
+  --color-purple: #6d28d9;
+  --color-blue: #1d4ed8;
+  --color-amber: #b45309;
+  --color-green: #15803d;
+
+  --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* fluid type scale: sized for projector, laptop and phone alike */
+  --text-sm: clamp(12px, 0.8vw, 15px);
+  --text-base: clamp(14px, 0.95vw, 18px);
+  --text-lg: clamp(16px, 1.15vw, 21px);
+  --text-2xl: clamp(21px, 1.6vw, 32px);
+  --text-4xl: clamp(30px, 2.6vw, 52px);
+  --text-6xl: clamp(40px, 4.6vw, 96px);
+  --text-display: clamp(52px, 8.5vw, 176px);
+
+  --ease-deck: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+:root {
+  --section-accent: var(--color-teal);
+  --rise-stagger: 60ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--section-accent) 22%, transparent);
+}
+
+/* headline settle: the one motion effect that reads as craft (web-deck.md) */
+@keyframes settle {
+  from {
+    opacity: 0;
+    letter-spacing: 0.06em;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: -0.02em;
+    transform: translateY(0);
+  }
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  text-wrap: balance;
+  animation: settle 0.7s var(--ease-deck) both;
+}
+
+.rise {
+  animation: rise 0.6s var(--ease-deck) both;
+  animation-delay: calc(var(--i, 0) * var(--rise-stagger) + 80ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .display,
+  .rise {
+    animation: none;
+  }
+  * {
+    scroll-behavior: auto;
+  }
+}
+
+/* hairline that comes from the palette, never a grey (visual-design.md) */
+.rule {
+  background: color-mix(in oklab, var(--color-ink) 14%, var(--color-paper));
+}
+
+.numeral {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.card-surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: 14px;
+}
+
+.eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--section-accent);
+}
+
+.prose-strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--color-ink);
+}

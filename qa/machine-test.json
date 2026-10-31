@@ -1,0 +1,1 @@
+[["wait",2000],["key","Enter"],["wait",1600],["shot","qa/machine-walk.png"],["wait",2800],["shot","qa/machine-retrieve.png"],["key","r"],["wait",2000],["shot","qa/machine-retain.png"]]
