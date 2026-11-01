@@ -50,16 +50,16 @@ export default function App() {
   return (
     <div className="relative min-h-dvh">
       {/* ambient dot field: pointer-reactive, palette-tinted per section */}
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-70">
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-40">
         <DotGrid
-          dotSize={3}
-          gap={34}
-          baseColor="#ded5c0"
+          dotSize={4}
+          gap={28}
+          baseColor="#000000"
           activeColor={accentHex}
-          proximity={110}
-          strength={0.35}
-          glow={0.12}
-          fade={0.55}
+          proximity={130}
+          strength={0.5}
+          glow={0.2}
+          fade={0.4}
           mouseInteraction
         />
       </div>
@@ -72,7 +72,7 @@ export default function App() {
       {/* deck chrome */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10 lg:px-16">
         <Eyebrow>{meta.section}</Eyebrow>
-        <span className="numeral text-sm font-medium text-ink-soft" aria-live="polite">
+        <span className="numeral text-sm font-extrabold bg-black text-white px-3 py-1 border-2 border-black" aria-live="polite">
           <span className="sr-only">Slide </span>
           {String(slide).padStart(2, '0')}
           <span aria-hidden="true"> / </span>
@@ -82,31 +82,31 @@ export default function App() {
       </header>
 
       <div className="fixed inset-x-0 bottom-0 z-20 px-6 pb-5 sm:px-10 lg:px-16">
-        <div className="rule h-[3px] w-full rounded-full">
+        <div className="rule h-[6px] w-full">
           <div
-            className="h-full rounded-full transition-[width] duration-500"
+            className="h-full transition-[width] duration-400"
             style={{ width: `${(slide / TOTAL) * 100}%`, background: accentHex }}
           />
         </div>
-        <div className="mt-3 flex items-center justify-between text-sm text-ink-soft">
-          <p className="hidden sm:block">← → arrows · # for a link to any slide</p>
+        <div className="mt-3 flex items-center justify-between text-sm">
+          <p className="hidden sm:block font-bold bg-white px-3 py-1 border-2 border-black">← → arrows · # for a link to any slide</p>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={prev}
               disabled={slide === 1}
-              className="rounded-full border border-hairline bg-surface px-4 py-1.5 font-medium text-ink disabled:opacity-40"
+              className="nb-button bg-white px-4 py-2 font-extrabold text-black disabled:opacity-40"
             >
-              ← Back
+              ← BACK
             </button>
             <button
               type="button"
               onClick={next}
               disabled={slide === TOTAL}
-              className="rounded-full border px-4 py-1.5 font-medium text-white disabled:opacity-40"
-              style={{ background: accentHex, borderColor: accentHex }}
+              className="nb-button px-4 py-2 font-extrabold text-black disabled:opacity-40"
+              style={{ background: accentHex }}
             >
-              Next →
+              NEXT →
             </button>
           </div>
         </div>

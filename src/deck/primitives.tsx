@@ -27,7 +27,7 @@ export function Stage({
   return (
     <section
       id={id}
-      className={cn('relative mx-auto flex min-h-dvh w-full max-w-[1440px] flex-col px-6 py-16 sm:px-10 lg:px-16', className)}
+      className={cn('relative mx-auto flex min-h-dvh w-full max-w-[1440px] flex-col px-6 py-16 sm:px-10 lg:px-16 slide-enter', className)}
       style={{ '--section-accent': ACCENT_VAR[accent] } as CSSProperties}
     >
       {children}
@@ -97,8 +97,8 @@ export function Block({
   return (
     <div
       className={cn(
-        'rounded-2xl p-5 sm:p-6',
-        tone === 'surface' ? 'card-surface' : 'border border-hairline',
+        'p-5 sm:p-6',
+        tone === 'surface' ? 'card-surface' : 'border-[3px] border-black',
         className,
       )}
     >
@@ -107,15 +107,15 @@ export function Block({
   )
 }
 
-/** Pill label for a category or a product name. */
+/** Bold label for a category or a product name. */
 export function Mark({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium',
+        'inline-flex items-center border-[2px] border-black px-4 py-1.5 text-sm font-extrabold uppercase tracking-wider',
         className,
       )}
-      style={{ borderColor: 'var(--section-accent)', color: 'var(--section-accent)' }}
+      style={{ background: 'var(--section-accent)', color: '#000000', boxShadow: '2px 2px 0px #000000' }}
     >
       {children}
     </span>

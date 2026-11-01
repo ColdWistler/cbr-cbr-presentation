@@ -1,43 +1,55 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — the "paper" system for a bright room (visual-design.md).
-   Ink #211f1e on paper #f7f3ea is 13.9:1; every accent below clears 4.5:1 on
-   paper at body size, which the QA pass measures against the rendered slides.
-   One accent per section; the accent never changes mid-section.
+   NEOBRUTALIST DESIGN TOKENS
+   High contrast, bold borders, hard shadows, unapologetic.
 --------------------------------------------------------------------------- */
 @theme {
-  --color-paper: #f7f3ea;
-  --color-surface: #fffdf8;
-  --color-ink: #211f1e;
-  --color-ink-soft: #57534e;
-  --color-hairline: #e2d9c6;
-  --color-teal: #0f766e;
-  --color-red: #b3261e;
-  --color-purple: #6d28d9;
-  --color-blue: #1d4ed8;
-  --color-amber: #b45309;
-  --color-green: #15803d;
+  --color-paper: #fffef7;
+  --color-surface: #ffffff;
+  --color-ink: #000000;
+  --color-ink-soft: #1a1a1a;
+  --color-hairline: #000000;
+  
+  /* Bold, high-contrast accents */
+  --color-teal: #06b6d4;
+  --color-red: #ef4444;
+  --color-purple: #a855f7;
+  --color-blue: #3b82f6;
+  --color-amber: #f59e0b;
+  --color-green: #22c55e;
+  
+  /* Neobrutalist accent colors - punchier */
+  --color-yellow: #fbbf24;
+  --color-pink: #ec4899;
+  --color-orange: #fb923c;
+  --color-cyan: #22d3ee;
 
-  --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Impact", "Arial Black", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* fluid type scale: sized for projector, laptop and phone alike */
-  --text-sm: clamp(12px, 0.8vw, 15px);
-  --text-base: clamp(14px, 0.95vw, 18px);
-  --text-lg: clamp(16px, 1.15vw, 21px);
-  --text-2xl: clamp(21px, 1.6vw, 32px);
-  --text-4xl: clamp(30px, 2.6vw, 52px);
-  --text-6xl: clamp(40px, 4.6vw, 96px);
-  --text-display: clamp(52px, 8.5vw, 176px);
+  /* fluid type scale: aggressive for impact */
+  --text-sm: clamp(12px, 0.8vw, 16px);
+  --text-base: clamp(15px, 0.95vw, 19px);
+  --text-lg: clamp(18px, 1.2vw, 24px);
+  --text-2xl: clamp(24px, 1.8vw, 38px);
+  --text-4xl: clamp(36px, 3.2vw, 68px);
+  --text-6xl: clamp(48px, 5.5vw, 112px);
+  --text-display: clamp(64px, 10vw, 200px);
 
-  --ease-deck: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Snappy, bouncy easing for motion maxxing */
+  --ease-deck: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 :root {
-  --section-accent: var(--color-teal);
-  --rise-stagger: 60ms;
+  --section-accent: var(--color-cyan);
+  --rise-stagger: 80ms;
+  --nb-shadow: 4px 4px 0px #000000;
+  --nb-shadow-lg: 6px 6px 0px #000000;
+  --nb-shadow-hover: 8px 8px 0px #000000;
 }
 
 * {
@@ -58,51 +70,71 @@ body {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--section-accent) 22%, transparent);
+  background: var(--color-yellow);
+  color: #000000;
 }
 
-/* headline settle: the one motion effect that reads as craft (web-deck.md) */
+/* Neobrutalist headline - snappy with scale */
 @keyframes settle {
   from {
     opacity: 0;
-    letter-spacing: 0.06em;
-    transform: translateY(10px);
+    letter-spacing: 0.08em;
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    letter-spacing: -0.02em;
-    transform: translateY(0);
+    letter-spacing: -0.03em;
+    transform: translateY(0) scale(1);
   }
 }
 
 .display {
   font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
   text-wrap: balance;
-  animation: settle 0.7s var(--ease-deck) both;
+  animation: settle 0.6s var(--ease-bounce) both;
+  text-shadow: 3px 3px 0px var(--section-accent);
 }
 
 .rise {
-  animation: rise 0.6s var(--ease-deck) both;
-  animation-delay: calc(var(--i, 0) * var(--rise-stagger) + 80ms);
+  animation: rise 0.5s var(--ease-bounce) both;
+  animation-delay: calc(var(--i, 0) * var(--rise-stagger) + 60ms);
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(24px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
+}
+
+/* Slide transition animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-enter {
+  animation: slideIn 0.4s var(--ease-deck) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .display,
-  .rise {
+  .rise,
+  .slide-enter {
     animation: none;
   }
   * {
@@ -110,37 +142,77 @@ body {
   }
 }
 
-/* hairline that comes from the palette, never a grey (visual-design.md) */
+/* Bold rule */
 .rule {
-  background: color-mix(in oklab, var(--color-ink) 14%, var(--color-paper));
+  background: #000000;
+  border: 2px solid #000000;
 }
 
-.numeral {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
-
+/* Neobrutalist card */
 .card-surface {
   background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
-  border-radius: 14px;
+  border: 3px solid #000000;
+  border-radius: 0;
+  box-shadow: var(--nb-shadow);
+  transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s var(--ease-bounce);
+}
+
+.card-surface:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--nb-shadow-hover);
 }
 
 .eyebrow {
   font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-weight: 800;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--section-accent);
+  color: #000000;
+  background: var(--section-accent);
+  display: inline-block;
+  padding: 4px 12px;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .prose-strong {
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 800;
+  background: linear-gradient(180deg, transparent 60%, var(--section-accent) 60%);
+  padding: 0 4px;
 }
 
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.92em;
-  color: var(--color-ink);
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #000000;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border: 1px solid #000000;
+}
+
+/* Neobrutalist button style */
+.nb-button {
+  border: 3px solid #000000;
+  box-shadow: var(--nb-shadow);
+  transition: all 0.15s var(--ease-bounce);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nb-button:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--nb-shadow-hover);
+}
+
+.nb-button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.nb-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

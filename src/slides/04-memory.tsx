@@ -1,5 +1,6 @@
-import { Stage, Split, Display, Eyebrow, Block, Rise, Dot } from '../deck/primitives'
+import { Stage, Split, Display, Eyebrow, Rise, Block, Dot } from '../deck/primitives'
 import FrostGlassCard from '../components/originkit/frost-glass-card'
+import MemoryDiagram from '../components/visuals/MemoryDiagram'
 import { tableRows, hhmm, leaf, Q } from '../data/cases'
 
 const MAP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
@@ -85,6 +86,9 @@ export default function Memory() {
           </Rise>
         </div>
         <div>
+          <Rise i={1}>
+            <MemoryDiagram />
+          </Rise>
           <Rise i={2}>
             <FrostGlassCard
               image={{ src: mapDataUri, alt: 'Map of the leaf neighbourhood with the new order N' }}
