@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { VISUAL, lerpColor, prefersReducedMotion, EASE } from '../lib/visuals';
+import { VISUAL, lerpColor, prefersReducedMotion } from '../../lib/visuals';
 import { DATA, leaf, retrieved, SPLIT, LEAF_CAP, distKm } from '../../data/cases';
 
 const ACCENT = VISUAL.blue;
