@@ -194,19 +194,17 @@ export default function SimilarityChart() {
                       stroke={bar.isBest ? '#000000' : '#000000'}
                       strokeWidth={bar.isBest ? 3 : 2}
                     >
-                      {!reduced && (
-                        {!reduced && (
-                          <animate
-                            attributeName="width"
-                            from="0"
-                            to={bar.sim * PLOT_W}
-                            dur="0.5s"
-                            begin={`${i * 0.12}s`}
-                            fill="freeze"
-                            calcMode="spline"
-                            keySplines="0.68 -0.55 0.265 1.55"
-                          />
-                        )}
+                      {!reduced && show && (
+                        <animate
+                          attributeName="width"
+                          from="0"
+                          to={bar.sim * PLOT_W}
+                          dur="0.5s"
+                          begin={`${i * 0.12}s`}
+                          fill="freeze"
+                          calcMode="spline"
+                          keySplines="0.68 -0.55 0.265 1.55"
+                        />
                       )}
                     </rect>
 
