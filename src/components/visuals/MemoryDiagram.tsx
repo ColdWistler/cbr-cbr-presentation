@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { VISUAL, svg, polar, lerpColor, prefersReducedMotion } from '../../lib/visuals';
-import { DATA, Q, leaf, bucketOf, hhmm, cell } from '../../data/cases';
+import { VISUAL, prefersReducedMotion } from '../../lib/visuals';
+import { DATA, Q, leaf } from '../../data/cases';
 
-const ACCENT = VISUAL.purple;
-const COLORS = VISUAL.chart.purple;
 
 interface CasePoint {
   id: string;
@@ -57,8 +55,7 @@ export default function MemoryDiagram() {
 
   return (
     <div
-      className="relative"
-      style={{ '--accent': VISUAL.purple }}
+      className="relative card-surface p-6"
       role="img"
       aria-label="Case memory visualization: 1km grid with past cases as dots, order N highlighted, discrimination tree walk shown"
     >
@@ -82,7 +79,7 @@ export default function MemoryDiagram() {
         </defs>
 
         {/* Grid */}
-        <g opacity={phase === 0 || phase === 2 ? 1 : 0.3} transition="opacity 0.6s ease">
+        <g opacity={phase === 0 || phase === 2 ? 1 : 0.3}>
           {X_BANDS.map((i) => (
             <line
               key={`vx-${i}`}
@@ -132,13 +129,13 @@ export default function MemoryDiagram() {
             strokeDasharray="8 6"
             rx={4}
             opacity={phase === 2 ? 1 : 0.5}
-            transition="opacity 0.4s"
+
           />
         )}
 
         {/* Tree structure overlay (phase 1+) */}
         {(phase >= 1) && (
-          <g opacity={phase === 1 ? 1 : 0.4} transition="opacity 0.6s">
+          <g opacity={phase === 1 ? 1 : 0.4}>
             {/* Tree nodes */}
             <g fontSize="11" fontFamily="var(--font-mono, monospace)" fill={VISUAL.ink}>
               {/* Root */}

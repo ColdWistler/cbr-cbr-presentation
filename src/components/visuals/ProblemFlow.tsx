@@ -66,8 +66,7 @@ export default function ProblemFlow() {
   return (
     <div
       ref={containerRef}
-      className="relative"
-      style={{ '--accent': ACCENT }}
+      className="relative card-surface p-6"
       role="img"
       aria-label="Problem flow: 12,000 orders per day enter the archive of 40,000 routes, each re-planned from scratch in 8–40 seconds"
     >
@@ -87,7 +86,7 @@ export default function ProblemFlow() {
 
         {/* Flow arrows between steps */}
         {[0, 1].map((i) => (
-          <g key={`arrow-${i}`} opacity={visible.includes(i + 1) ? 1 : 0} transition="opacity 0.4s ease">
+          <g key={`arrow-${i}`} opacity={visible.includes(i + 1) ? 1 : 0}>
             <path
               d={`M${280 + i * 290} 140 Q${330 + i * 290} 140 ${330 + i * 290} 140`}
               stroke={ACCENT}

@@ -3,7 +3,6 @@ import { VISUAL, lerpColor, prefersReducedMotion } from '../../lib/visuals';
 import { DATA, leaf, retrieved, SPLIT, LEAF_CAP, distKm } from '../../data/cases';
 
 const ACCENT = VISUAL.blue;
-const COLORS = VISUAL.chart.blue;
 const LOW = VISUAL.green;
 const HIGH = VISUAL.amber;
 
@@ -15,8 +14,6 @@ const CASES = leaf.map((l) => ({
 
 const NEW_CASE = { id: DATA.retained.id, dist: distKm(DATA.retained.dest) };
 
-const TEXT_GT = '{` > 4.8 km`}';
-const TEXT_LE = '{`&le; 4.8 km`}';
 
 const W = 720;
 const H = 360;
@@ -42,8 +39,7 @@ export default function DrawerSplit() {
 
   return (
     <div
-      className="relative"
-      style={{ '--accent': ACCENT }}
+      className="relative card-surface p-6"
       role="img"
       aria-label="Drawer split animation: 3 cases in leaf, N-1187 added, drawer splits into &le;4.8km and >4.8km sections"
     >
@@ -101,7 +97,7 @@ export default function DrawerSplit() {
             fill={VISUAL.surface}
             stroke={VISUAL.hairline}
             strokeWidth={1.5}
-            transition="width 0.6s ease-out"
+
           />
 
           {/* Divider line (phase 2+) */}
@@ -115,7 +111,7 @@ export default function DrawerSplit() {
               strokeWidth={2}
               strokeDasharray="6 4"
               opacity={phase === 2 ? 1 : 0.4}
-              transition="opacity 0.4s"
+
             />
           )}
 
@@ -133,7 +129,6 @@ export default function DrawerSplit() {
               <g
                 key={c.id}
                 transform={`translate(${phase >= 2 ? targetX : x}, ${(DRAWER_H - CARD_H) / 2})`}
-                transition={`transform 0.6s ease-out, opacity 0.4s`}
                 opacity={phase === 0 && i === 3 ? 0 : 1}
               >
                 {/* Card */}
@@ -209,7 +204,7 @@ export default function DrawerSplit() {
             <g
               transform={`translate(${START_X + CASES.length * (CARD_W + GAP) + 20}, ${(DRAWER_H - CARD_H) / 2})`}
               opacity={phase >= 1 ? 1 : 0}
-              transition="opacity 0.4s"
+
             >
               <rect
                 x={0}
@@ -335,7 +330,7 @@ export default function DrawerSplit() {
         </g>
       </svg>
 
-      <style jsx>{`
+      <style>{`
         @media (prefers-reduced-motion: reduce) {
           * { animation: none !important; transition: none !important; }
         }
