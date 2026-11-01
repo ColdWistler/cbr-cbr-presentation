@@ -1,33 +1,4 @@
-import { Stage, Split, Display, Eyebrow, Rise, Block, Dot } from '../deck/primitives'
-import FrostGlassCard from '../components/originkit/frost-glass-card'
-import MemoryDiagram from '../components/visuals/MemoryDiagram'
-import { tableRows, hhmm, leaf, Q } from '../data/cases'
-
-const MAP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
-  <rect width="640" height="400" fill="#f7f3ea"/>
-  ${[0, 1, 2, 3].map((i) => `<line x1="${128 + i * 160}" y1="0" x2="${128 + i * 160}" y2="400" stroke="#e2d9c6" stroke-width="1"/>`).join('')}
-  ${[0, 1, 2, 3, 4].map((i) => `<line x1="0" y1="${10 + i * 80}" x2="640" y2="${10 + i * 80}" stroke="#e2d9c6" stroke-width="1"/>`).join('')}
-  <line x1="128" y1="170" x2="608" y2="170" stroke="#6d28d9" stroke-width="1.4" stroke-dasharray="6 6"/>
-  <text x="132" y="164" font-family="monospace" font-size="15" fill="#6d28d9">walked branch · morning peak · moderate</text>
-  ${tableRows
-    .filter((r) => r.dest.y > 2.5)
-    .map((r) => {
-      const sx = 128 + (r.dest.x - 0.5) * 160
-      const sy = 410 - (r.dest.y - 2.5) * 80
-      const on = leaf.some((l) => l.c.id === r.id)
-      return `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${on ? 9 : 6}" fill="${on ? '#6d28d9' : '#c9c0aa'}"${on ? ' stroke="#6d28d9" stroke-opacity="0.35" stroke-width="6"' : ''}/>`
-    })
-    .join('')}
-  ${(() => {
-    const sx = 128 + (Q.dest.x - 0.5) * 160
-    const sy = 410 - (Q.dest.y - 2.5) * 80
-    return `<rect x="${(sx - 10).toFixed(1)}" y="${(sy - 10).toFixed(1)}" width="20" height="20" fill="none" stroke="#211f1e" stroke-width="2.4"/>
-    <text x="${(sx + 16).toFixed(1)}" y="${(sy - 14).toFixed(1)}" font-family="monospace" font-size="17" font-weight="700" fill="#211f1e">N</text>`
-  })()}
-  <text x="132" y="386" font-family="monospace" font-size="14" fill="#57534e">1 km grid · depot at origin · dots = past cases (purple = this branch's leaf)</text>
-</svg>`
-
-const mapDataUri = `data:image/svg+xml,${encodeURIComponent(MAP_SVG)}`
+import { Stage, Split, Display, Eyebrow, Rise, Block, Dot } from '../deck/primitives' 
 
 export default function Memory() {
   return (
@@ -87,25 +58,18 @@ export default function Memory() {
         </div>
         <div>
           <Rise i={1}>
-            <MemoryDiagram />
+            <div className="card-surface overflow-hidden" style={{ borderWidth: '4px' }}>
+              <iframe
+                src="./figure/memory-sorter-light.html"
+                title="Anatomy diagram: case memory sorter"
+                className="w-full h-[420px] border-0"
+                loading="lazy"
+              />
+            </div>
           </Rise>
           <Rise i={2}>
-            <FrostGlassCard
-              image={{ src: mapDataUri, alt: 'Map of the leaf neighbourhood with the new order N' }}
-              title="Where order N lands"
-              description="Purple dots = the three cases in the walked branch. Frosted glass clears under your pointer."
-              cardWidth={620}
-              cardHeight={390}
-              textColor="#211f1e"
-              subColor="#57534e"
-              blur={26}
-              rounded={16}
-              tint="rgba(247,243,234,0.32)"
-            />
-          </Rise>
-          <Rise i={3}>
             <Block className="mt-4">
-              <h3 className="font-display text-lg font-medium">The discrimination tree</h3>
+              <h3 className="font-display text-lg font-extrabold uppercase">The discrimination tree</h3>
               <ul className="mt-2 space-y-2 text-base text-ink-soft">
                 <li><Dot className="mr-2" /> Index attributes, in order: <span className="mono">x-band → y-band → time bucket → traffic</span></li>
                 <li><Dot className="mr-2" /> Fan-out = number of possible values; leaf cap = 3 cases</li>
