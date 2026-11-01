@@ -144,7 +144,7 @@ export default function SimilarityChart() {
           {BARS.map((bar, i) => {
             const y = i * (BAR_H + GAP);
             const show = animIndex >= i;
-            const totalWidth = mode === 'total' ? bar.sim * PLOT_W : PLOT_W;
+            // totalWidth computed inline
 
             // Segment widths for breakdown
             const segments = mode === 'breakdown' ? [

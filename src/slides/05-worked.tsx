@@ -3,7 +3,7 @@ import SimilarityChart from '../components/visuals/SimilarityChart'
 import DrawerSplit from '../components/visuals/DrawerSplit'
 import { DATA, Q, leaf, retrieved, hhmm, cell } from '../data/cases'
 
-const n = (v: number, d = 3) => v.toFixed(d)
+
 
 export default function Worked() {
   const s = DATA.storm

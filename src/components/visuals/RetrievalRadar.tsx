@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { VISUAL, polar, prefersReducedMotion } from '../../lib/visuals';
 
 
@@ -121,7 +121,6 @@ export default function RetrievalRadar() {
         <g filter="url(#radarGlow)">
           {SYSTEMS.map((sys) => {
             const points = AXES.map((axis, i) => {
-              const angle = (i / AXES.length) * Math.PI * 2 - Math.PI / 2;
               const value = axis[sys.id as keyof typeof axis] as number;
               const r = value * MAX_R;
               return polar(CX, CY, r, (i / AXES.length) * 360 - 90);
@@ -154,7 +153,6 @@ export default function RetrievalRadar() {
                 {/* Vertices */}
                 <g>
                   {AXES.map((axis, i) => {
-                    const angle = (i / AXES.length) * Math.PI * 2 - Math.PI / 2;
                     const value = axis[sys.id as keyof typeof axis] as number;
                     const r = value * MAX_R;
                     const p = polar(CX, CY, r, (i / AXES.length) * 360 - 90);

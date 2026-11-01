@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { VISUAL, lerpColor, prefersReducedMotion } from '../../lib/visuals';
+import { prefersReducedMotion } from '../../lib/visuals';
 import { DATA, leaf } from '../../data/cases';
 
 
@@ -31,15 +31,11 @@ export default function PruneChart() {
   const W = 560;
   const H = 320;
   
-  const PLOT_W = W - 120;
-  const PLOT_H = H - MARGIN.top - MARGIN.bottom;
-  
   
 
   return (
     <div
       className="relative card-surface p-6"
-      style={{ '--accent': '#22c55e' }}
       role="img"
       aria-label="Utility scores for forgetting: R-0512 highest at 13.3, R-0142 at 10.3, R-0450 lowest at 6.3"
     >

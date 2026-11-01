@@ -7,7 +7,7 @@ const utility = (id: string) => {
   const c = DATA.cases.find((x) => x.id === id)!
   return ((c.outcome === 'on-time' ? 1 : 0.5) * c.uses) / (1 + c.lastUsedDays)
 }
-const sorted = [...leaf].sort((a, b) => utility(b.c.id) - utility(a.c.id))
+[...leaf].sort((a, b) => utility(b.c.id) - utility(a.c.id))
 
 const PRUNE = [
   { title: 'Set a budget', body: 'Cap by rows (30k), memory, or query-time SLA. Without a number, every policy is just a vibe.' },

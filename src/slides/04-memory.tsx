@@ -1,4 +1,5 @@
-import { Stage, Split, Display, Eyebrow, Rise, Block, Dot } from '../deck/primitives' 
+import { Stage, Split, Display, Eyebrow, Rise, Block, Dot } from '../deck/primitives'
+import { tableRows, hhmm } from '../data/cases' 
 
 export default function Memory() {
   return (

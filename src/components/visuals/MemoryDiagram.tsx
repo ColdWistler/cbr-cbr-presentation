@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { VISUAL, svg, polar, lerpColor, prefersReducedMotion } from '../lib/visuals';
+import { VISUAL, svg, polar, lerpColor, prefersReducedMotion } from '../../lib/visuals';
 import { DATA, Q, leaf, bucketOf, hhmm, cell } from '../../data/cases';
 
 const ACCENT = VISUAL.purple;
